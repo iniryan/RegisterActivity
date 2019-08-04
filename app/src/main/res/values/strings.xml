@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">RegisterActivity</string>
+
+    <string-array name="gender_list">
+        <item>Pilih gender</item>
+        <item>Laki-laki</item>
+        <item>Perempuan</item>
+        <item>Other</item>
+    </string-array>
+
+
+
+</resources>
