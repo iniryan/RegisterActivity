@@ -1,5 +1,6 @@
 package com.example.registeractivity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -23,14 +24,49 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        buttonSave.setOnClickListener {
+            navigasiProfil()
+        }
+
         edtName = findViewById(R.id.editName)
         spnnnerGender = findViewById(R.id.spinnerGender)
         edtEmail = findViewById(R.id.editEmail)
         edtTelp = findViewById(R.id.editTelp)
         edtAddress = findViewById(R.id.editAddress)
 
-        buttonSave.setOnClickListener { validasiInput() }
         getDataSpinner()
+    }
+
+    fun navigasiProfil(){
+        val namaInput = editName.text
+        val emailInput = editEmail.text
+        val telpInput = editTelp.text
+        val alamatInput= editAddress.text
+        val genderInput = spinnerGender.selectedItem.toString()
+
+        when {
+            namaInput.isEmpty() -> editName.error = "Nama tidak boleh kosong"
+            emailInput.isEmpty() -> editEmail.error = "Email tidak boleh kosong"
+            telpInput.isEmpty() -> editTelp.error = "Telepon tidak boleh kosong"
+            alamatInput.isEmpty() -> editAddress.error = "Alamat tidak boleh kosong"
+            genderInput.equals("Pilih gender : ") -> Toast.makeText(this, "Jenis kelamin harus dipilih", Toast.LENGTH_SHORT).show()
+
+            else -> {
+                Toast.makeText(this, "Navigasi ke halaman profil", Toast.LENGTH_SHORT).show()
+
+                val intent = Intent(this, MyProfileActivity::class.java)
+                val bundle = Bundle()
+
+                bundle.putString("nama", namaInput.toString())
+                bundle.putString("gender", genderInput)
+                bundle.putString("alamat", alamatInput.toString())
+                bundle.putString("email", emailInput.toString())
+                bundle.putString("telp", telpInput.toString())
+
+                intent.putExtras(bundle)
+                startActivity(intent)
+            }
+        }
     }
 
     fun getDataSpinner(){
@@ -43,29 +79,5 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
-
-    fun validasiInput(){
-
-
-        val namaInput = edtName?.text.toString()
-        val emailInput = edtEmail?.text.toString()
-        val telpInput= edtTelp?.text.toString()
-        val addressInput = edtAddress?.text.toString()
-        val genderInput = spnnnerGender?.selectedItem.toString()
-
-        when{
-            genderInput.equals("Pilih gender") ->
-                Toast.makeText( this,"Harap isi gender", Toast.LENGTH_SHORT).show()
-            namaInput.isEmpty() -> edtName?.error = "Nama tidak boleh kosong"
-            emailInput.isEmpty() -> edtEmail?.error = "Email tidak boleh kosong"
-            telpInput.isEmpty() -> edtTelp?.error = "Telepon tidak boleh kosong"
-            addressInput.isEmpty() -> edtAddress?.error = "Alamat tidak boleh kosong"
-
-            else -> {
-                Toast.makeText( this,"Data berhasil terkirim", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
 }
 
